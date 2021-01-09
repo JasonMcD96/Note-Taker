@@ -1,6 +1,7 @@
 var express = require("express");
 var path = require("path");
 const fs = require("fs")
+const DBPATH = './db/db.json'
 
 var app = express();
 var PORT = 3000;
@@ -17,10 +18,21 @@ app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
 
+//add get * returns index.html
+
+
 app.get("/api/notes", function(req, res){
-    console.log('User wants to load notes...')
-    let raw = fs.readFileSync('./db/db.json')
+    let raw = fs.readFileSync(DBPATH)
     let notes = JSON.parse(raw)
+    res.send(notes)
+})
+
+app.post("/api/notes", function(req, res){
+    // console.log(req.body)
+    let notes = JSON.parse(fs.readFileSync(DBPATH))
+    notes.push(req.body)
+    console.log(notes)
+    fs.writeFileSync(DBPATH, JSON.stringify(notes))
     res.send(notes)
 })
 
