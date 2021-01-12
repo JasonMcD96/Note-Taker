@@ -10,9 +10,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "/public/index.html"));
-});
+// app.get("/", function (req, res) {
+//     res.sendFile(path.join(__dirname, "/public/index.html"));
+// });
 
 app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
@@ -46,6 +46,11 @@ app.delete("/api/notes/:id", function(req, res){
     fs.writeFileSync(DBPATH, JSON.stringify(newNotes))
     res.send(newNotes)
 })
+
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
 
 // Server initialization
 app.listen(PORT, function () {
