@@ -39,7 +39,12 @@ app.post("/api/notes", function(req, res){
 })
 
 app.delete("/api/notes/:id", function(req, res){
-    console.log('User wants to delete: ', req.params)
+    let noteToDelete = req.params.id
+    console.log('Note being deleted', noteToDelete)
+    let notes = JSON.parse(fs.readFileSync(DBPATH))
+    let newNotes = notes.filter(note => note.id != noteToDelete)
+    fs.writeFileSync(DBPATH, JSON.stringify(newNotes))
+    res.send(newNotes)
 })
 
 // Server initialization
