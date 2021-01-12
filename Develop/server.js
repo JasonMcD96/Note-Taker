@@ -30,10 +30,16 @@ app.get("/api/notes", function(req, res){
 app.post("/api/notes", function(req, res){
     // console.log(req.body)
     let notes = JSON.parse(fs.readFileSync(DBPATH))
-    notes.push(req.body)
+    formattedNote = req.body
+    formattedNote.id = Math.floor(Math.random() * 1000000)
+    notes.push(formattedNote)
     console.log(notes)
     fs.writeFileSync(DBPATH, JSON.stringify(notes))
     res.send(notes)
+})
+
+app.delete("/api/notes/:id", function(req, res){
+    console.log('User wants to delete: ', req.params)
 })
 
 // Server initialization
