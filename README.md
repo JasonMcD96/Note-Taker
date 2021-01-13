@@ -13,4 +13,4 @@ objects that store the title, body text, and ID of the note.
 
 ## Preview
 
-![Preview](Develop\public\assets\images\preview.png)
+![Preview](Develop/public/assets/images/preview.png)
