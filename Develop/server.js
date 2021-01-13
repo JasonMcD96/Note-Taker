@@ -10,16 +10,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get("/", function (req, res) {
-//     res.sendFile(path.join(__dirname, "/public/index.html"));
-// });
-
+//Routes
 app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
-
-//add get * returns index.html
-
 
 app.get("/api/notes", function(req, res){
     let raw = fs.readFileSync(DBPATH)
@@ -28,19 +22,17 @@ app.get("/api/notes", function(req, res){
 })
 
 app.post("/api/notes", function(req, res){
-    // console.log(req.body)
     let notes = JSON.parse(fs.readFileSync(DBPATH))
     formattedNote = req.body
     formattedNote.id = Math.floor(Math.random() * 1000000)
     notes.push(formattedNote)
-    console.log(notes)
     fs.writeFileSync(DBPATH, JSON.stringify(notes))
     res.send(notes)
 })
 
 app.delete("/api/notes/:id", function(req, res){
     let noteToDelete = req.params.id
-    console.log('Note being deleted', noteToDelete)
+    console.log('Note being deleted:', noteToDelete)
     let notes = JSON.parse(fs.readFileSync(DBPATH))
     let newNotes = notes.filter(note => note.id != noteToDelete)
     fs.writeFileSync(DBPATH, JSON.stringify(newNotes))
